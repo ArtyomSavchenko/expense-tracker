@@ -14,18 +14,18 @@ class RepositoriesTests @Autowired constructor(
         val currencyRepository: CurrencyRepository) {
 
     @Test
-    fun `When findAll then return FinancialAccount`() {
-        val currency = Currency("ruble")
-        entityManager.persist(currency)
-        entityManager.flush()
+    fun testSaveAllCurrencies() {
+        val dollar = Currency("dollar")
+        val ruble = Currency("ruble")
+        currencyRepository.saveAll(listOf(dollar, ruble))
         val found = currencyRepository.findAll()
-        assertThat(found.count()).isEqualTo(1)
-        // Verify failure detected by CI
-        assertThat(found.firstOrNull()).isEqualTo(null)
+        assertThat(found.count()).isEqualTo(2)
+        assertThat(found.elementAt(0)).isEqualTo(dollar)
+        assertThat(found.elementAt(1)).isEqualTo(ruble)
     }
 
     @Test
-    fun `When findByUserId then return FinancialAccount`() {
+    fun testFindAccountByUserId() {
         val testUserId = 123L
         val currency = Currency("ruble")
         val newAccount = FinancialAccount("johnDoe", testUserId, LocalDateTime.now(), currency)
