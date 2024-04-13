@@ -10,10 +10,22 @@ import java.time.LocalDateTime
 @DataJpaTest
 class RepositoriesTests @Autowired constructor(
         val entityManager: TestEntityManager,
-        val accountRepository: AccountRepository) {
+        val accountRepository: AccountRepository,
+        val currencyRepository: CurrencyRepository) {
 
     @Test
-    fun `When findByUserId then return FinancialAccount`() {
+    fun testSaveAllCurrencies() {
+        val dollar = Currency("dollar")
+        val ruble = Currency("ruble")
+        currencyRepository.saveAll(listOf(dollar, ruble))
+        val found = currencyRepository.findAll()
+        assertThat(found.count()).isEqualTo(2)
+        assertThat(found.elementAt(0)).isEqualTo(dollar)
+        assertThat(found.elementAt(1)).isEqualTo(ruble)
+    }
+
+    @Test
+    fun testFindAccountByUserId() {
         val testUserId = 123L
         val currency = Currency("ruble")
         val newAccount = FinancialAccount("johnDoe", testUserId, LocalDateTime.now(), currency)
@@ -24,4 +36,5 @@ class RepositoriesTests @Autowired constructor(
         assertThat(found.count()).isEqualTo(1)
         assertThat(found.firstOrNull()).isEqualTo(newAccount)
     }
+
 }
