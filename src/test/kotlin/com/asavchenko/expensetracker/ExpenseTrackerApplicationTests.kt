@@ -1,4 +1,4 @@
-package com.ArtyomSavchenko.expensetracker
+package com.asavchenko.expensetracker
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
