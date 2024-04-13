@@ -7,3 +7,6 @@ import org.springframework.stereotype.Repository
 interface AccountRepository : CrudRepository<FinancialAccount, Long> {
     fun findByUserId(userId: Long): Iterable<FinancialAccount>
 }
+
+@Repository
+interface CurrencyRepository : CrudRepository<Currency, Long>
